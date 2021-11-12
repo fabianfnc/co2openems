@@ -1,0 +1,120 @@
+<ion-header>
+    <ion-toolbar class="ion-justify-content-center" color="primary">
+        <ion-title>CO2-Compensation</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="modalCtrl.dismiss()">
+                <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card-content class="underline">
+        <ion-label>Compensate CO2:</ion-label>
+        <ion-item lines="none">
+            <ion-input style="font-size: 14px;" class="ion-padding-start" placeholder="CO2 in Gram"
+                [(ngModel)]="amount"></ion-input>
+            <ion-button (click)="getPrice()">
+                <ion-icon name="checkbox-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+        <ng-container *ngIf="get != null">
+            <table class="full_width">
+                <tr *ngIf="left > 0">
+                    <td style="width:65%">Request</td>
+                    <td style="width:35%" class="align_right">
+                        {{ req | unitvalue:'g' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:65%">Receive</td>
+                    <td style="width:35%" class="align_right">
+                        {{ get | unitvalue:'g' }}
+                    </td>
+                </tr>
+                <tr *ngIf="left > 0">
+                    <td style="width:65%">Overcompensation</td>
+                    <td style="width:35%" class="align_right">
+                        {{ left | unitvalue:'g' }}
+                    </td>
+            </table>
+            <ion-row class="ion-justify-content-center">
+                <ion-col size="12" class="ion-text-center">
+                    <ion-button (click)="payComp()">
+                        Compensate for {{costs}} €
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="left > 0" class="ion-justify-content-center ion-align-items-center">
+                <ion-col size="2" class="ion-text-center">
+                    <ion-icon padding-right color="primary" size="large" name="alert-outline"></ion-icon>
+                </ion-col>
+                <ion-col size="8" class="ion-text-center">
+                    <ion-note class="ion-text-wrap"><small>Compensation minimum is 10.000 grams</small>
+                    </ion-note>
+                </ion-col>
+                <ion-col size="2" class="ion-text-center">
+                    <ion-icon padding-right color="primary" size="large" name="alert-outline"></ion-icon>
+                </ion-col>
+            </ion-row>
+        </ng-container>
+    </ion-card-content>
+    <ion-card-content class="underline">
+        <ion-label>Zertifikat lookup:</ion-label>
+        <ion-item lines="none">
+            <ion-input style="font-size: 14px;" class="ion-padding-start" [(ngModel)]="userCertificate"
+                placeholder="Zertifikats-ID"></ion-input>
+            <ion-button (click)="getCertificate()">
+                <ion-icon name="checkbox-outline"></ion-icon>
+            </ion-button>
+        </ion-item>
+
+        <table class="full_width" *ngIf="certificateId != null">
+            <tr>
+                <td style="width:65%">Compensated</td>
+                <td style="width:35%" class="align_right">
+                    {{ compensated | unitvalue:'g' }}
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Overcompensation</td>
+                <td style="width:35%" class="align_right">
+                    {{ overcompensation | unitvalue:'g' }}
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Certificate-ID</td>
+                <td style="width:35%" class="align_right">
+                    {{ certificateId }}
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Certificate Document</td>
+                <td style="width:35%" class="align_right">
+                    <ion-icon style="cursor: pointer; font-size: 24px;" (click)="openCertificate()" color="success"
+                        name="arrow-down-circle-outline"></ion-icon>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Place of Compensation</td>
+                <td style="width:35%" class="align_right">
+                    {{ compPlace }}
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Plant-Partner</td>
+                <td style="width:35%" class="align_right">
+                    {{ plantPartner }}
+                </td>
+            </tr>
+            <tr>
+                <td style="width:65%">Issued on</td>
+                <td style="width:35%" class="align_right">
+                    {{ issueDate }}
+                </td>
+            </tr>
+        </table>
+
+    </ion-card-content>
+</ion-content>
